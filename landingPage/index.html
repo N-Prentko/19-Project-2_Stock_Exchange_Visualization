@@ -1,0 +1,62 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+            <div id="globeArea" style="width: 200px; height: 200px"></div>
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    $(function () {
+
+// Get the container to hold the IO globe
+var container = document.getElementById( "globalArea" );
+
+// Create Gio.controller
+var controller = new GIO.Controller( container );
+
+// Add data
+controller.addData( data );
+
+// Initialize and render the globe
+controller.init();
+});
+</script>
+</body>
+</html>  -->
+
+
+
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Gio.js interact with Highchart.js / Gio.js</title>
+  <!-- Know more fancier usage of Gio.js, see: 
+       official website: http://giojs.org  
+       github repo: https://github.com/syt123450/giojs
+-->
+  <!--  For more API demo see Giojs API Codepen Collection: https://codepen.io/collection/DkBobG/  -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://threejs.org/build/three.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://raw.githack.com/syt123450/giojs/master/build/gio.min.js"></script>
+  <!-- load data in this data script -->
+  <script src="https://raw.githack.com/syt123450/giojs/master/assets/data/sampleData.js"></script>
+</head>
+
+<body>
+
+  <div id="importChartArea"></div>
+  <div id="exportChartArea"></div>
+
+  <div id="globeTitle">click to choose a country ~</div>
+  <div id="globalArea"></div>
+
+</body>
+
+</html>
