@@ -1,50 +1,75 @@
-html,
-body {
+/* html, body {
+
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+}
+
+header {
+
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: white;
+  z-index: 1000;
+
+}
+
+#globalArea {
+
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
 }
 
-#importChartArea {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 50%;
-  width: 50%;
-  background-color: #000000;
-  border-right: 1px solid #9c9c9c;
-  border-bottom: 1px solid #9c9c9c;
-  box-sizing: border-box;
+a {
+color: #ff0000;
 }
 
-#exportChartArea {
-  position: fixed;
-  left: 0;
-  top: 50%;
-  height: 50%;
-  width: 50%;
-  background-color: #000000;
-  border-right: 1px solid #9c9c9c;
-  box-sizing: border-box;
-}
+#originalArea {
 
-#globalArea {
-  position: fixed;
-  left: 50%;
-  top: 0;
+  width: 50%;
   height: 100%;
-  width: 50%;
-  background-color: #000000;
+  float: left;
+  border-right: 1px #626262 solid;
+  box-sizing: border-box;
+
 }
 
-#globeTitle {
-  position: fixed;
-  left: 50%;
-  top: 0;
-  color: #fff;
-  font-size: 16px;
-  line-height: 30px;
-  z-index: 10;
-  padding-left: 50px;
+#changedArea {
+
+  width: 50%;
+  height: 100%;
+  float: left;
+
 }
+
+.originalTitle {
+
+  top: 0;
+  color: white;
+  line-height: 25px;
+  width: 50%;
+  position: fixed;
+  box-sizing: border-box;
+  padding-left: 20px;
+
+}
+
+.changedTitle {
+
+  top:0;
+  left: 50%;
+  color: white;
+  line-height: 25px;
+  width: 50%;
+  position: fixed;
+  box-sizing: border-box;
+  padding-left: 20px;
+
+} */
