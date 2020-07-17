@@ -3,6 +3,7 @@
 import yfinance as yf
 from sqlalchemy import create_engine
 import pandas as pd
+import json
 
 #Connect to PostgreSQL
 
@@ -29,18 +30,26 @@ ssec_df = create_pandas_table('SELECT * FROM public."SSEC_hist"')
 
 connection.close()
 
-# Set the date as the dataframe index for each stock price dataframe
+gspc_df = gspc_df.drop(['Dividends', 'Stock Splits'], axis=1)
+gspc_df['Date'] = gspc_df['Date'].astype(str)
+gspc_lst = gspc_df.values.tolist()
+with open('gspc_hist.json', 'w') as F:
+    F.write(json.dumps(gspc_lst))
 
-gspc_df = gspc_df.set_index('Date')
-n225_df = n225_df.set_index('Date')
-hsi_df = hsi_df.set_index('Date')
-ssec_df = ssec_df.set_index('Date')
+hsi_df = hsi_df.drop(['Dividends', 'Stock Splits'], axis=1)
+hsi_df['Date'] = hsi_df['Date'].astype(str)
+hsi_lst = hsi_df.values.tolist()
+with open('hsi_hist.json', 'w') as F:
+    F.write(json.dumps(hsi_lst))
 
-# Convert dataframe to JSON file. To be set at the URL destination for the relevant stock
+n225_df = n225_df.drop(['Dividends', 'Stock Splits'], axis=1)
+n225_df['Date'] = n225_df['Date'].astype(str)
+n225_lst = n225_df.values.tolist()
+with open('n225_hist.json', 'w') as F:
+    F.write(json.dumps(n225_lst))
 
-gspc_df.to_json("gspc_hist.json", orient='index')
-n225_df.to_json("n225_hist.json", orient='index')
-hsi_df.to_json("hsi_hist.json", orient='index')
-ssec_df.to_json("ssec_hist.json", orient='index')
-
-
+ssec_df = ssec_df.drop(['Dividends', 'Stock Splits'], axis=1)
+ssec_df['Date'] = ssec_df['Date'].astype(str)
+ssec_lst = ssec_df.values.tolist()
+with open('ssec_hist.json', 'w') as F:
+    F.write(json.dumps(ssec_lst))
