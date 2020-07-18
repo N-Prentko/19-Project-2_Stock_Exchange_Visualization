@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-stock.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js"></script>
+    <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css" type="text/css" rel="stylesheet">
+    <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css" type="text/css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style type="text/css">
+        html,
+        body,
+        #container {
+            width: 1100px;
+            height: 600px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="container"></div>
+    <a class="btn btn-primary" href="/" role="button">Link</a>
+
+    <script>
+        anychart.onDocumentReady(function() {
+            anychart.data.loadJsonFile(
+                'http://127.0.0.1:5000/gspc/',
+                function(data) {
+
+                    // create data table on loaded data
+                    var dataTable = anychart.data.table();
+                    dataTable.addData(data);
+
+                    // map loaded data for the ohlc series
+                    var mapping = dataTable.mapAs({
+                        open: 1,
+                        high: 2,
+                        low: 3,
+                        close: 4
+                    });
+
+                    // map loaded data for the scroller
+                    var scrollerMapping = dataTable.mapAs();
+                    scrollerMapping.addField('value', 5);
+
+                    // create stock chart
+                    var chart = anychart.stock();
+
+                    // create first plot on the chart
+                    var plot = chart.plot(0);
+
+                    // set grid settings
+                    plot.yGrid(true).xGrid(true).yMinorGrid(true).xMinorGrid(true);
+
+                    // create EMA indicators with period 50
+                    plot
+                        .ema(dataTable.mapAs({
+                            value: 4
+                        }))
+                        .series()
+                        .stroke('1.5 #455a64');
+
+                    var series = plot.candlestick(mapping);
+                    series.name('S&P500');
+                    series.legendItem().iconType('rising-falling');
+
+                    // create scroller series with mapped data
+                    chart.scroller().candlestick(mapping);
+
+                    // set chart selected date/time range
+                    chart.selectRange('2007-01-03', '2007-05-20');
+
+                    // set container id for the chart
+                    chart.container('container');
+                    // initiate chart drawing
+                    chart.draw();
+
+                    // create range picker
+                    var rangePicker = anychart.ui.rangePicker();
+                    // init range picker
+                    rangePicker.render(chart);
+
+                    // create range selector
+                    var rangeSelector = anychart.ui.rangeSelector();
+                    // init range selector
+                    rangeSelector.render(chart);
+                }
+
+            );
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/stock.js') }}"></script> -->
+</body>
+
+</html>
