@@ -45,8 +45,10 @@ n225_hist.to_sql('N225_hist', con=connection, if_exists = 'replace', index=True)
 hsi_hist.to_sql('HSI_hist', con=connection, if_exists = 'replace', index=True)
 ssec_hist.to_sql('SSEC_hist', con=connection, if_exists = 'replace', index=True)
 
-connection.close()
-
+#Function to create a dataframe from a PostgreSQL query
+def create_pandas_table(sql_query, database = connection):
+    table = pd.read_sql_query(sql_query, database)
+    return table
 
 app = Flask(__name__)
 
@@ -73,27 +75,10 @@ def shanghaihtml():
 
 @app.route("/gspc/")
 def gspc_json():
-    #Connect to PostgreSQL
-
-    host = "localhost"
-    user = "postgres"
-    port = "5432"
-    passwd = "hawkeyes"
-    db = "Proj2_stock_data"
-
-    engine = create_engine(f'postgresql://{user}:{passwd}@{host}:{port}/{db}')
-    connection = engine.connect()
-
-    #Function to create a dataframe from a PostgreSQL query
-    def create_pandas_table(sql_query, database = connection):
-        table = pd.read_sql_query(sql_query, database)
-        return table
 
     #Query each stock's PostgreSQL table and convert to dataframe
 
     gspc_df = create_pandas_table('SELECT * FROM public."GSPC_hist"')
-
-    connection.close()
 
     gspc_df = gspc_df.drop(['Dividends', 'Stock Splits'], axis=1)
     gspc_df['Date'] = gspc_df['Date'].astype(str)
@@ -105,27 +90,10 @@ def gspc_json():
 
 @app.route("/hsi/")
 def hsi_json():
-    #Connect to PostgreSQL
-
-    host = "localhost"
-    user = "postgres"
-    port = "5432"
-    passwd = "hawkeyes"
-    db = "Proj2_stock_data"
-
-    engine = create_engine(f'postgresql://{user}:{passwd}@{host}:{port}/{db}')
-    connection = engine.connect()
-
-    #Function to create a dataframe from a PostgreSQL query
-    def create_pandas_table(sql_query, database = connection):
-        table = pd.read_sql_query(sql_query, database)
-        return table
 
     #Query each stock's PostgreSQL table and convert to dataframe
 
     hsi_df = create_pandas_table('SELECT * FROM public."HSI_hist"')
-
-    connection.close()
 
     hsi_df = hsi_df.drop(['Dividends', 'Stock Splits'], axis=1)
     hsi_df['Date'] = hsi_df['Date'].astype(str)
@@ -137,27 +105,10 @@ def hsi_json():
 
 @app.route("/n225/")
 def n225_json():
-    #Connect to PostgreSQL
-
-    host = "localhost"
-    user = "postgres"
-    port = "5432"
-    passwd = "hawkeyes"
-    db = "Proj2_stock_data"
-
-    engine = create_engine(f'postgresql://{user}:{passwd}@{host}:{port}/{db}')
-    connection = engine.connect()
-
-    #Function to create a dataframe from a PostgreSQL query
-    def create_pandas_table(sql_query, database = connection):
-        table = pd.read_sql_query(sql_query, database)
-        return table
 
     #Query each stock's PostgreSQL table and convert to dataframe
 
     n225_df = create_pandas_table('SELECT * FROM public."N225_hist"')
-
-    connection.close()
 
     n225_df = n225_df.drop(['Dividends', 'Stock Splits'], axis=1)
     n225_df['Date'] = n225_df['Date'].astype(str)
@@ -169,27 +120,10 @@ def n225_json():
 
 @app.route("/ssec/")
 def ssec_json():
-    #Connect to PostgreSQL
 
-    host = "localhost"
-    user = "postgres"
-    port = "5432"
-    passwd = "hawkeyes"
-    db = "Proj2_stock_data"
+#     #Query each stock's PostgreSQL table and convert to dataframe
 
-    engine = create_engine(f'postgresql://{user}:{passwd}@{host}:{port}/{db}')
-    connection = engine.connect()
-
-    #Function to create a dataframe from a PostgreSQL query
-    def create_pandas_table(sql_query, database = connection):
-        table = pd.read_sql_query(sql_query, database)
-        return table
-
-    #Query each stock's PostgreSQL table and convert to dataframe
-
-    ssec_df = create_pandas_table('SELECT * FROM public."N225_hist"')
-
-    connection.close()
+    ssec_df = create_pandas_table('SELECT * FROM public."SSEC_hist"')
 
     ssec_df = ssec_df.drop(['Dividends', 'Stock Splits'], axis=1)
     ssec_df['Date'] = ssec_df['Date'].astype(str)
@@ -198,7 +132,6 @@ def ssec_json():
     pass_json = jsonify(ssec_lst)
 
     return (pass_json)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
