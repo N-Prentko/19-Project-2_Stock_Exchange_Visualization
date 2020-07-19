@@ -1,31 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
+  <head>
+    
+    <style>
+      h1 {text-align: center;}
+    </style>
+    
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    
+    <script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    function initialize() {
+        var options = {
+          sky: true,
+          atmosphere: true,
+          dragging: true,
+          tilting: true,
+          zooming: false,
+          zoom: 2};
 
-</head>
+        var earth = new WE.map('earth_div' , options);
+        WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(earth);
+        
+        // marker2.bindPopup("<a class=\"fancybox\"  href=\"https://www.youtube.com/embed/XGSy3_Czz8k\">Youtube<\/a>",
+        // <a href="index.html">Go to index</a>
+        // marker.bindPopup("<b>The New York Stock Exchange</b><br>Welcome to The Big Board!<br /><br>", {maxWidth: 150, closeButton: true}).openPopup();
+        // marker.bindPopup<a href="sp500.html">S&P 500</a>
+        
+        //var marker = WE.marker([40.706877, -74.011265]).addTo(earth);
+       // marker.bindPopup("<b>The New York Stock Exchange</b><br>S&P 500<br /><a href=\"sp500\">Go to S&P 500</a>", {maxWidth: 150, closeButton: true}).openPopup();
 
-<body>
-    <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown link
-        </a>
+        var marker = WE.marker([40.706877, -74.011265]).addTo(earth);
+        marker.bindPopup("<b>The New York Stock Exchange</b><br>S&P 500<br /><a href=\"sp500\"><img alt='500' src=\"logos/1200px-NY_Stock_Exchange_logo.svg.png', {maxWidth: 150, closeButton: true}).openPopup();
+        
+        var marker2 = WE.marker([35.6763, 139.7739]).addTo(earth);
+        marker2.bindPopup("<b>Tokyo Stock Exchange (東証) </b><br>Nikkei<br /><a href=\"nikkei225\">Go to Nikkei</a> ", {maxWidth: 150, closeButton: false});
+      
+        // var marker2 = WE.marker([35.6763, 139.7739]).addTo(earth);
+        // marker2.bindPopup("<b>Tokyo Stock Exchange (東証)</b><br>Nikkei<br /><a href=\"nikkei225\"><img alt=\"Nikkei\" src=\"/logos/1200px-Tokyo_Stock_Exchange_logo.svg.png\"", {maxWidth: 150, closeButton: false});
 
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="sp500">S&P 500</a>
-            <a class="dropdown-item" href="hangseng">Hang Seng</a>
-            <a class="dropdown-item" href="nikkei225">Nikkei</a>
-            <a class="dropdown-item" href="shanghai">Shanghai</a>
+        var marker3 = WE.marker([31.23833, 121.50639]).addTo(earth);
+        marker3.bindPopup("<b>Shanghai Stock Exchange (上海證券交易所)</b><br>SSE<br /><a href=\"shanghai\">Go to SSE</a>",  {maxWidth: 150, closeButton: false});
+        
+        // var marker3 = WE.marker([31.23833, 121.50639]).addTo(earth);
+        // marker3.bindPopup("<b>Shanghai Stock Exchange (上海證券交易所)</b><br>SSEC<br /><a href=\"shanghai\"><img alt=\"SSEC\" src=\"/logos/shanghai.svg.png\"",  {maxWidth: 150, closeButton: false});
 
-        </div>
+        var marker4 = WE.marker([22.542039, 114.053865]).addTo(earth);
+        marker4.bindPopup("<b>Hong Kong Stock Exchange (香港聯合交易所)</b><br>Hang Seng Index<br /><a href=\"hangseng\">Go to Hang Seng</a>",  {maxWidth: 150, closeButton: false});
+     
+        // var marker4 = WE.marker([22.542039, 114.053865]).addTo(earth);
+        // marker4.bindPopup("<b>Hong Kong Stock Exchange (香港聯合交易所)</b><br>Hang Seng Index<br /><a href=\"hangseng\"><img alt=\"HSI\" src=\"/logos/HKEX_logo_2016.svg.png\"",  {maxWidth: 150, closeButton: false});
+     
+        WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+          // attribution: '© OpenStreetMap contributors'
+            attribution: '© Cummings, Simpson & Prentkowski 2020'
+        }).addTo(earth);
+
+         // Start a simple rotation animation
+         var before = null;
+        requestAnimationFrame(function animate(now) {
+            var c = earth.getPosition();
+            var elapsed = before? now - before: 0;
+            before = now;
+            earth.setCenter([c[0], c[1] + 0.1*(elapsed/30)]);
+            requestAnimationFrame(animate);
+        });
+      };
+
+    </script>
+    
+    <style>
+      html, body{padding: 0; margin: 0; background-color: black;}
+      #earth_div{top: 0; right: 0; bottom: 0; left: 0; position: absolute !important;}
+    </style>
+    <title>Stock Exchanges</title>
+  </head>
+  <body onload="initialize()">
+
+    <div id="earth_div">
+        
+      <h1 style="background-color:rgb(202, 202, 204);">Global stock markets in a global pandemic</h1>
+  
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-</body>
+
+  </body>
 
 </html>
+
+
+
+
+                  <!-- <div class="container-fluid p-1" >
+                    <a href="temperature.html" class="imageFocus" onclick="this.focus()">
+                    <img class="card-img-bottom zoom" src="Resources\assets\images\Fig1.png" style='width:100%;' alt="Latitude vs Max Temp Graph">
+                    </a>
+                  </div> -->
