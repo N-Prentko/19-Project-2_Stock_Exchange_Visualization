@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>Shanghai Stock Index</title>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js"></script>
     <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js"></script>
@@ -22,13 +23,52 @@
             margin: 0;
             padding: 0;
         }
+        
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 </head>
 
 <body>
-    <div id="container"></div>
-    <a class="btn btn-primary" href="/" role="button">Link</a>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/">Global Home</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Shanghai Stock Index - China (SSEC)</h1>
+
+                </div>
+                <div id="container"></div>
+
+            </main>
+        </div>
+    </div>
+
 
     <script>
         anychart.onDocumentReady(function() {
@@ -70,14 +110,15 @@
                         .stroke('1.5 #455a64');
 
                     var series = plot.candlestick(mapping);
-                    series.name('Shanghai');
+                    series.name('SHANGHAI INDEX');
                     series.legendItem().iconType('rising-falling');
 
                     // create scroller series with mapped data
                     chart.scroller().candlestick(mapping);
 
                     // set chart selected date/time range
-                    chart.selectRange('2007-01-03', '2007-05-20');
+                    chart.selectRange('2018-07-20', '2020-07-20');
+
 
                     // set container id for the chart
                     chart.container('container');
@@ -90,9 +131,67 @@
                     rangePicker.render(chart);
 
                     // create range selector
+                    // var rangeSelector = anychart.ui.rangeSelector();
+                    // // init range selector
+                    // rangeSelector.render(chart);
+
                     var rangeSelector = anychart.ui.rangeSelector();
-                    // init range selector
+
+                    var customRanges = [{
+                        'text': 'COVID19',
+                        'startDate': '2019 Nov 17',
+                        'endDate': '2020 July 17',
+                        'type': 'range'
+                    }, {
+                        'text': '10D',
+                        'type': 'unit',
+                        'unit': 'day',
+                        'count': 10,
+                        'anchor': 'last-visible-date'
+                    }, {
+                        'text': '1M',
+                        'type': 'unit',
+                        'unit': 'month',
+                        'count': 1,
+                        'anchor': 'last-visible-date'
+                    }, {
+                        'text': '3M',
+                        'type': 'unit',
+                        'unit': 'month',
+                        'count': 3,
+                        'anchor': 'last-visible-date'
+                    }, {
+                        'text': '1Y',
+                        'type': 'unit',
+                        'unit': 'year',
+                        'count': 1,
+                        'anchor': 'last-visible-date'
+                    }, {
+                        'text': '2Y',
+                        'type': 'unit',
+                        'unit': 'year',
+                        'count': 2,
+                        'anchor': 'last-visible-date'
+                    }, {
+                        'text': '5Y',
+                        'type': 'unit',
+                        'unit': 'year',
+                        'count': 5,
+                        'anchor': 'last-visible-date'
+                    }, {
+                        'text': 'YTD',
+                        'startDate': '2020 Jan 1',
+                        'endDate': '2020 July 17',
+                        'type': 'range'
+                    }, {
+                        'text': 'Max',
+                        'type': 'max'
+                    }];
+
+                    // Set custom ranges for the range selector.
+                    rangeSelector.ranges(customRanges);
                     rangeSelector.render(chart);
+
                 }
 
             );
