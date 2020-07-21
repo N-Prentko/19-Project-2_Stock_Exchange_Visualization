@@ -1,0 +1,96 @@
+<!-- Commence HTML script -->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+
+    <style>
+        h1 {text-align: center;}
+            .imageNav-photo {
+            width: 50px;
+
+            /* Box-model */
+            height: 50px;
+        }
+
+    </style>
+
+    <script src="https://www.webglearth.com/v2/api.js"></script>
+
+    <script>
+        function initialize() {
+            var options = {
+                sky: true,
+                atmosphere: true,
+                dragging: true,
+                tilting: true,
+                zooming: false,
+                zoom: 2};
+
+            var earth = new WE.map('earth_div', options);
+            WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(earth);
+
+            
+            var marker = WE.marker([40.706877, -74.011265]).addTo(earth);
+            marker.bindPopup("<b>The New York Stock Exchange</b><br>S&P 500<br /><a href=\"sp500.html\"><img src='logos/NYSE.svg.png' alt='symbol' class='imageNav-photo'></a>", {maxWidth: 150, closeButton: true}).openPopup();
+
+            
+            var marker2 = WE.marker([35.6763, 139.7739]).addTo(earth);
+            marker2.bindPopup("<b>Tokyo Stock Exchange (東証) </b><br>Nikkei<br /><a href=\"nikkei225.html\"><img src='logos/Tokyo.svg.png' alt='secondSymbol' class='imageNav-photo'></a>", {maxWidth: 150, closeButton: false});
+
+
+            var marker3 = WE.marker([31.23833, 121.50639]).addTo(earth);
+            marker3.bindPopup("<b>Shanghai Stock Exchange (上海證券交易所)</b><br>SSE<br /><a href=\"shanghai.html\"><img src='logos/shanghai.svg.png' alt='thirdSymbol' class='imageNav-photo'></a>", {maxWidth: 150, closeButton: false});
+
+            
+            var marker4 = WE.marker([22.542039, 114.053865]).addTo(earth);
+            marker4.bindPopup("<b>Hong Kong Stock Exchange (香港聯合交易所)</b><br>Hang Seng Index<br /><a href=\"hangseng.html\"><img src='logos/hk.svg.png' alt='fourthSymbol</a>' class='imageNav-photo'></a>", {maxWidth: 150, closeButton: false});
+
+            
+
+            WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© Cummings, Simpson & Prentkowski 2020'
+            }).addTo(earth);
+
+            // Start a simple rotation animation
+            var before = null;
+            requestAnimationFrame(function animate(now) {
+                var c = earth.getPosition();
+                var elapsed = before ? now - before : 0;
+                before = now;
+                earth.setCenter([c[0], c[1] + 0.1 * (elapsed / 30)]);
+                requestAnimationFrame(animate);
+            });
+        };
+    </script>
+
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: black;
+        }
+        
+        #earth_div {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            position: absolute !important;
+        }
+    </style>
+    <title>Stock Exchanges</title>
+</head>
+
+<body onload="initialize()">
+
+    <div id="earth_div">
+
+        <h1 style="background-color:rgb(51, 59, 63); color: rgb(255, 255, 255); font-family:Helvetica Neue;">Global stock markets during a global pandemic</h1>
+
+    </div>
+
+</body>
+
+</html>
